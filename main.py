@@ -1,4 +1,6 @@
 from WebScrape import WebScrape as Ws
+from LoadDatabase import LoadDatabase as ld
+
 import os
 
 
@@ -13,6 +15,8 @@ def main():
     # puts all data into a dataframe then converts it to a CSV
     df_all_data = Ws.scrape_site(dates, path)
     df_all_data.to_csv(path + '\\df_all_data.csv')
+
+    ld.load_database(path)
 
 
 if __name__ == "__main__":
