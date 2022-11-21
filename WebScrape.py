@@ -60,7 +60,6 @@ class WebScrape:
         """
         Generates a list of dates that would be used to scrap the target website. The list of dates will be formatted
         as year_month. Here are the list of dates used to test web scraping.
-        start_month - 12, start_year - 2016, end_month - 1, end_year - 2019
         Arguments:
             start_month: month of start date
             start_year: year of start date
