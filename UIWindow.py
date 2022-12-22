@@ -1,27 +1,35 @@
-import pygame as pg
+from PyQt6 import QtWidgets, uic
+from WebScrape import WebScrape as Ws
+from LoadDatabase import LoadDatabase as ld
+import os
+import sys
 
-class UIWindow:
+
+class UIWindow(QtWidgets.QMainWindow):
     def __init__(self):
-        pass
+        super(UIWindow, self).__init__()
+        uic.loadUi('UIWindow.ui', self)
+        self.show()
+        self.extract_Btn = self.layout().itemAt(0).widget().findChild(QtWidgets.QPushButton, 'Extract')
+        self.transform_Btn = self.layout().itemAt(0).widget().findChild(QtWidgets.QPushButton, 'Transform')
+        self.load_Btn = self.layout().itemAt(0).widget().findChild(QtWidgets.QPushButton, 'Load')
+        self.extract_Btn.clicked.connect(lambda: self.extract())
+        self.transform_Btn.clicked.connect(lambda: self.transform())
+        self.load_Btn.clicked.connect(lambda: self.load())
 
-    @staticmethod
-    def render():
-        pg.init()
-        pg.display.set_caption('Game of Life')
-        pg.font.init()
-        font = pg.font.SysFont('Times New Roman', 40)
-        extract_text = font.render('Extract', False, (0, 0, 0))
-        transform_text = font.render('Transform', False, (0, 0, 0))
-        load_text = font.render('Load Database', False, (0, 0, 0))
-        extract = pg.Rect(250, 50, 300, 150)
-        transform = pg.Rect(250, 300, 300, 150)
-        load = pg.Rect(250, 550, 300, 150)
+    def extract(self):
+        self.path = ''
+        self.path = input("Enter CSV path location: ")
+        self.path = r'' + self.path
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
 
-        SCREEN = pg.display.set_mode((800, 800))
-        SCREEN.fill((255, 255, 255))
-        pg.draw.rect(SCREEN, (0, 0, 0, 0), extract, 2)
-        pg.draw.rect(SCREEN, (0, 0, 0, 0), transform, 2)
-        pg.draw.rect(SCREEN, (0, 0, 0, 0), load, 2)
-        SCREEN.blit(extract_text, (345, 100))
-        SCREEN.blit(transform_text, (315, 350))
-        SCREEN.blit(load_text, (285, 600))
+        dates = Ws.date_list(12, 2016, 1, 2019)
+
+        # puts all data into a dataframe then converts it to a CSV
+        df_all_data = Ws.scrape_site(dates, self.path)
+        df_all_data.to_csv(self.path + '\\df_all_data.csv')
+    def transform(self):
+        print("transform")
+    def load(self):
+        ld.load_database(self.path)
