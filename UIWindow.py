@@ -32,4 +32,4 @@ class UIWindow(QtWidgets.QMainWindow):
     def transform(self):
         print("transform")
     def load(self):
-        ld.load_database(self.path)
+        uic.loadUi('LoadDatabaseWindow.ui', self)
