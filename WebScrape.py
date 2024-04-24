@@ -32,7 +32,7 @@ class WebScrape:
 
         for date in dates:
             desired_url = base_url + date + '.xlsx'
-            r = requests.get(desired_url)
+            r = requests.get(desired_url, timeout=60)
 
             # Load excel into a numpy array. Uses the oil page only.
             workbook = ox.load_workbook(filename=BytesIO(r.content))
