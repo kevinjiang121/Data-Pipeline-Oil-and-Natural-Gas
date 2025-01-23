@@ -14,6 +14,7 @@ def retrieve_data():
         "frequency": "weekly", 
         "start": "2020-01-01",
         "end": "2025-01-01",
+        "data[]": "value",
         "offset": 0,
         "length": 5000
     }
